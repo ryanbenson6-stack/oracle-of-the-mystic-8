@@ -1,0 +1,592 @@
+/* ============================================================
+   ORACLE OF THE MYSTIC 8 — Styles
+   ============================================================ */
+
+:root {
+  --black:          #000000;
+  --deep-purple:    #0a0010;
+  --dark-purple:    #1a0030;
+  --neon-purple:    #bf00ff;
+  --neon-cyan:      #00ffff;
+  --neon-magenta:   #ff00ff;
+  --neon-green:     #39ff14;
+  --ball-blue:      #1b2d6b;
+  --answer-text:    #b8d4ff;
+  --terminal-green: #00ff41;
+  --text-dim:       #888899;
+  --text-bright:    #ddddff;
+}
+
+/* ---- Reset & Base ---- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--deep-purple);
+  color: var(--text-bright);
+  overflow-x: hidden;
+  animation: cosmicPulse 8s ease-in-out infinite;
+}
+
+/* ---- Starfield Canvas ---- */
+#starfield {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ---- Scanlines ---- */
+.scanlines {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.07) 2px,
+    rgba(0, 0, 0, 0.07) 4px
+  );
+}
+
+/* ---- Layout ---- */
+.main-container {
+  position: relative;
+  z-index: 10;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.header-section {
+  text-align: center;
+}
+
+.neon-title {
+  font-family: 'Orbitron', monospace;
+  font-weight: 900;
+  font-size: clamp(1.4rem, 4vw, 2.4rem);
+  letter-spacing: 0.12em;
+  color: #fff;
+  text-shadow:
+    0 0 5px #fff,
+    0 0 10px var(--neon-purple),
+    0 0 25px var(--neon-purple),
+    0 0 50px var(--neon-purple),
+    0 0 90px var(--neon-purple);
+  animation: neonFlicker 6s linear infinite;
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(0.7rem, 2vw, 0.95rem);
+  color: var(--neon-cyan);
+  letter-spacing: 0.2em;
+  margin-top: 10px;
+  text-shadow: 0 0 8px var(--neon-cyan), 0 0 20px var(--neon-cyan);
+  opacity: 0.85;
+}
+
+/* ============================================================
+   MAGIC 8 BALL
+   ============================================================ */
+.eight-ball-section {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ball-glow {
+  position: absolute;
+  width: 360px;
+  height: 360px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(191,0,255,0.25) 0%, transparent 70%);
+  animation: ballGlowPulse 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+#eight-ball {
+  position: relative;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 32%, #2a1040, #0d0015 55%, #000 100%);
+  box-shadow:
+    0 0 40px rgba(191,0,255,0.6),
+    0 0 80px rgba(191,0,255,0.3),
+    0 0 140px rgba(191,0,255,0.15),
+    inset 0 0 50px rgba(0,0,0,0.9),
+    inset 2px 2px 10px rgba(255,255,255,0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+  transition: transform 0.15s ease;
+}
+
+/* Specular highlight */
+.ball-highlight {
+  position: absolute;
+  top: 14%;
+  left: 17%;
+  width: 30%;
+  height: 18%;
+  background: radial-gradient(ellipse, rgba(255,255,255,0.18) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: rotate(-25deg);
+  pointer-events: none;
+}
+
+/* Inner triangle window */
+.ball-window {
+  position: relative;
+  width: 148px;
+  height: 148px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ball-window::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 60%, #1e3a8a, #0a1640, #030a20);
+  clip-path: polygon(50% 8%, 4% 92%, 96% 92%);
+  box-shadow:
+    inset 0 0 20px rgba(100, 149, 237, 0.4),
+    inset 0 0 5px rgba(180, 210, 255, 0.15);
+}
+
+#ball-answer {
+  position: relative;
+  z-index: 2;
+  font-family: 'VT323', monospace;
+  font-size: 1.05rem;
+  color: var(--answer-text);
+  text-shadow: 0 0 8px #4169e1, 0 0 16px #4169e1;
+  text-align: center;
+  padding: 0 12px;
+  max-width: 120px;
+  line-height: 1.25;
+  margin-top: 16px;
+  word-break: break-word;
+  transition: opacity 0.3s ease;
+}
+
+/* Idle float */
+#eight-ball.idle-float {
+  animation: ballFloat 4s ease-in-out infinite;
+}
+
+/* Loading surge — intense glow */
+#eight-ball.surging {
+  animation: ballShake 2.5s cubic-bezier(0.36, 0.07, 0.19, 0.97),
+             ballSurge 2.5s ease-in-out;
+  box-shadow:
+    0 0 60px rgba(191,0,255,0.95),
+    0 0 120px rgba(191,0,255,0.6),
+    0 0 200px rgba(255,0,255,0.35),
+    inset 0 0 50px rgba(0,0,0,0.9);
+}
+
+/* Ripple ring on submit */
+.ripple-ring {
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  border: 2px solid rgba(191, 0, 255, 0.8);
+  animation: rippleExpand 1s ease-out forwards;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Ball shake animation */
+@keyframes ballShake {
+  0%    { transform: rotate(0deg) scale(1); }
+  8%    { transform: rotate(-9deg) scale(1.03); }
+  18%   { transform: rotate(7deg) scale(1.04); }
+  28%   { transform: rotate(-5deg) scale(1.03); }
+  38%   { transform: rotate(4deg) scale(1.02); }
+  48%   { transform: rotate(-3deg) scale(1.01); }
+  58%   { transform: rotate(2deg) scale(1); }
+  68%   { transform: rotate(-1deg) scale(1); }
+  100%  { transform: rotate(0deg) scale(1); }
+}
+
+#eight-ball.shaking {
+  animation: ballShake 2.5s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+/* ============================================================
+   TERMINAL INPUT
+   ============================================================ */
+.terminal-section {
+  width: 100%;
+  max-width: 600px;
+  border: 1px solid rgba(0, 255, 65, 0.35);
+  border-radius: 4px;
+  background: rgba(0, 8, 2, 0.7);
+  box-shadow:
+    0 0 15px rgba(0, 255, 65, 0.12),
+    inset 0 0 30px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+.terminal-header {
+  font-family: 'VT323', monospace;
+  font-size: 1.1rem;
+  letter-spacing: 0.2em;
+  color: var(--terminal-green);
+  text-shadow: 0 0 8px var(--terminal-green);
+  background: rgba(0, 255, 65, 0.06);
+  padding: 8px 16px;
+  border-bottom: 1px solid rgba(0, 255, 65, 0.2);
+}
+
+.terminal-body {
+  padding: 12px;
+}
+
+#question-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--terminal-green);
+  font-family: 'VT323', monospace;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  resize: none;
+  caret-color: var(--terminal-green);
+  text-shadow: 0 0 6px rgba(0, 255, 65, 0.5);
+}
+
+#question-input::placeholder {
+  color: rgba(0, 255, 65, 0.3);
+}
+
+.terminal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(0, 255, 65, 0.12);
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+#char-counter {
+  font-family: 'VT323', monospace;
+  font-size: 0.9rem;
+  color: rgba(0, 255, 65, 0.4);
+}
+
+#submit-btn {
+  font-family: 'Orbitron', monospace;
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  color: #000;
+  background: linear-gradient(135deg, var(--neon-purple), var(--neon-magenta));
+  border: none;
+  padding: 10px 22px;
+  border-radius: 2px;
+  cursor: pointer;
+  text-shadow: none;
+  box-shadow: 0 0 15px rgba(191, 0, 255, 0.6), 0 0 30px rgba(191, 0, 255, 0.3);
+  transition: box-shadow 0.2s ease, transform 0.1s ease, opacity 0.2s ease;
+}
+
+#submit-btn:hover:not(:disabled) {
+  box-shadow: 0 0 25px rgba(191, 0, 255, 0.9), 0 0 50px rgba(191, 0, 255, 0.5);
+  transform: translateY(-1px);
+}
+
+#submit-btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+#submit-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ============================================================
+   READING SECTION
+   ============================================================ */
+.reading-section {
+  width: 100%;
+  max-width: 600px;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.reading-section.visible {
+  opacity: 1;
+}
+
+.mystical-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  color: var(--neon-purple);
+  text-shadow: 0 0 8px var(--neon-purple);
+  margin-bottom: 20px;
+}
+
+.divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--neon-purple), transparent);
+  box-shadow: 0 0 6px var(--neon-purple);
+}
+
+/* Smoke container */
+.smoke-container {
+  position: relative;
+  min-height: 100px;
+  padding: 20px;
+  border: 1px solid rgba(191, 0, 255, 0.2);
+  border-radius: 4px;
+  background: rgba(10, 0, 16, 0.6);
+  overflow: hidden;
+}
+
+/* Smoke particles */
+.smoke-particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.smoke-particle.s1 {
+  width: 140px; height: 80px;
+  background: radial-gradient(ellipse, rgba(191,0,255,0.12) 0%, transparent 70%);
+  bottom: 10%; left: 15%;
+}
+
+.smoke-particle.s2 {
+  width: 100px; height: 60px;
+  background: radial-gradient(ellipse, rgba(0,255,255,0.08) 0%, transparent 70%);
+  bottom: 20%; right: 20%;
+}
+
+.smoke-particle.s3 {
+  width: 180px; height: 100px;
+  background: radial-gradient(ellipse, rgba(191,0,255,0.07) 0%, transparent 70%);
+  bottom: 0%; left: 30%;
+}
+
+/* Smoke reveal animation — applied by JS */
+.smoke-container.smoke-reveal .smoke-particle.s1 {
+  animation: smokeDrift 3.2s ease-out forwards;
+}
+.smoke-container.smoke-reveal .smoke-particle.s2 {
+  animation: smokeDrift 2.8s ease-out 0.4s forwards;
+}
+.smoke-container.smoke-reveal .smoke-particle.s3 {
+  animation: smokeDrift 3.6s ease-out 0.2s forwards;
+}
+
+.smoke-container.smoke-reveal .reading-text {
+  animation: smokeReveal 2.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* Reading text */
+.reading-text {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(0.85rem, 2vw, 1.05rem);
+  line-height: 1.8;
+  color: var(--text-bright);
+  text-shadow: 0 0 12px rgba(191, 0, 255, 0.4);
+  text-align: center;
+  opacity: 0;
+  position: relative;
+  z-index: 2;
+  min-height: 60px;
+}
+
+/* ============================================================
+   SHARE BUTTON
+   ============================================================ */
+.share-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 20px;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  flex-wrap: wrap;
+}
+
+.share-row.visible {
+  opacity: 1;
+}
+
+#share-btn {
+  font-family: 'Orbitron', monospace;
+  font-weight: 700;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: #000;
+  background: linear-gradient(135deg, #00c8ff, #00ffaa);
+  border: none;
+  padding: 10px 22px;
+  border-radius: 2px;
+  cursor: pointer;
+  box-shadow: 0 0 15px rgba(0, 200, 255, 0.5), 0 0 30px rgba(0, 200, 255, 0.2);
+  transition: box-shadow 0.2s ease, transform 0.1s ease;
+}
+
+#share-btn:hover {
+  box-shadow: 0 0 25px rgba(0, 200, 255, 0.9), 0 0 50px rgba(0, 200, 255, 0.4);
+  transform: translateY(-1px);
+}
+
+#share-btn:active {
+  transform: translateY(1px);
+}
+
+.share-confirm {
+  font-family: 'VT323', monospace;
+  font-size: 1rem;
+  color: var(--neon-cyan);
+  text-shadow: 0 0 8px var(--neon-cyan);
+  letter-spacing: 0.1em;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.share-confirm.show {
+  opacity: 1;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 20px;
+  font-family: 'VT323', monospace;
+  font-size: 0.95rem;
+  letter-spacing: 0.15em;
+  color: var(--text-dim);
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.footer-sep {
+  color: var(--neon-purple);
+  text-shadow: 0 0 6px var(--neon-purple);
+}
+
+/* ============================================================
+   KEYFRAME ANIMATIONS
+   ============================================================ */
+
+@keyframes cosmicPulse {
+  0%, 100% { background-color: #0a0010; }
+  50%       { background-color: #0e0018; }
+}
+
+@keyframes neonFlicker {
+  0%, 89%, 91%, 93%, 100% {
+    text-shadow:
+      0 0 5px #fff,
+      0 0 10px var(--neon-purple),
+      0 0 25px var(--neon-purple),
+      0 0 50px var(--neon-purple),
+      0 0 90px var(--neon-purple);
+  }
+  90% {
+    text-shadow:
+      0 0 5px #fff,
+      0 0 10px var(--neon-purple),
+      0 0 20px var(--neon-purple);
+  }
+  92% {
+    text-shadow: none;
+  }
+}
+
+@keyframes ballGlowPulse {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50%       { transform: scale(1.1); opacity: 1; }
+}
+
+@keyframes ballFloat {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+
+@keyframes ballSurge {
+  0%   { filter: brightness(1); }
+  30%  { filter: brightness(1.4) saturate(1.5); }
+  60%  { filter: brightness(1.2); }
+  100% { filter: brightness(1); }
+}
+
+@keyframes rippleExpand {
+  0%   { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+@keyframes smokeReveal {
+  0%   { opacity: 0; filter: blur(28px) brightness(0.1) saturate(2); transform: scale(0.94) translateY(16px); }
+  20%  { opacity: 0.15; filter: blur(22px) brightness(0.3) saturate(2); transform: scale(0.96) translateY(10px); }
+  50%  { opacity: 0.6; filter: blur(10px) brightness(0.7); transform: scale(0.99) translateY(4px); }
+  75%  { opacity: 0.9; filter: blur(3px) brightness(1.05); transform: scale(1) translateY(0); }
+  90%  { opacity: 1; filter: blur(0.5px) brightness(1.1); }
+  100% { opacity: 1; filter: blur(0px) brightness(1); transform: scale(1); }
+}
+
+@keyframes smokeDrift {
+  0%   { opacity: 0.7; transform: translateY(0) scaleX(1); }
+  40%  { opacity: 0.4; transform: translateY(-25px) scaleX(1.25); }
+  100% { opacity: 0; transform: translateY(-65px) scaleX(1.6); }
+}
+
+@keyframes answerFadeIn {
+  from { opacity: 0; filter: blur(6px); }
+  to   { opacity: 1; filter: blur(0px); }
+}
+
+@keyframes pulse-dim {
+  0%, 100% { opacity: 0.5; }
+  50%       { opacity: 1; }
+}
+
+/* Loading dots in ball */
+.loading-dots {
+  animation: pulse-dim 1s ease-in-out infinite;
+}

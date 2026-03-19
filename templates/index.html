@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Oracle of the Mystic 8</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Cinzel+Decorative:wght@400;700&family=VT323&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+  <canvas id="starfield"></canvas>
+  <div class="scanlines"></div>
+
+  <div class="main-container">
+
+    <header class="header-section">
+      <div class="neon-title">ORACLE OF THE MYSTIC 8</div>
+      <div class="subtitle">✦ Ask and the Sphere Shall Reveal ✦</div>
+    </header>
+
+    <section class="eight-ball-section">
+      <div class="ball-glow"></div>
+      <div id="eight-ball">
+        <div class="ball-highlight"></div>
+        <div class="ball-window">
+          <div id="ball-answer">8</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="terminal-section">
+      <div class="terminal-header">&gt;&gt; QUERY THE ORACLE &lt;&lt;</div>
+      <div class="terminal-body">
+        <textarea
+          id="question-input"
+          placeholder="Speak your question into the void..."
+          maxlength="500"
+          rows="3"
+        ></textarea>
+        <div class="terminal-footer">
+          <span id="char-counter">0 / 500</span>
+          <button id="submit-btn">✦ CONSULT THE SPHERE ✦</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="reading-section" id="reading-section">
+      <div class="mystical-divider">
+        <span>◆</span><span class="divider-line"></span><span>THE READING</span><span class="divider-line"></span><span>◆</span>
+      </div>
+      <div id="smoke-container" class="smoke-container">
+        <div class="smoke-particle s1"></div>
+        <div class="smoke-particle s2"></div>
+        <div class="smoke-particle s3"></div>
+        <div id="reading-text" class="reading-text"></div>
+      </div>
+      <div class="share-row" id="share-row">
+        <button id="share-btn">✦ INFLICT THIS ON A FRIEND ✦</button>
+        <span id="share-confirm" class="share-confirm"></span>
+      </div>
+    </section>
+
+  </div>
+
+  <footer class="footer">
+    <span>Est. Since The Dawn of Time</span>
+    <span class="footer-sep">✦</span>
+    <span>The Sphere Knows All</span>
+    <span class="footer-sep">✦</span>
+    <span>Trust the Vibrations</span>
+  </footer>
+
+  <script src="/static/js/main.js"></script>
+</body>
+</html>
