@@ -18,6 +18,8 @@ const smokeContainer = document.getElementById('smoke-container');
 const readingText    = document.getElementById('reading-text');
 const shareRow       = document.getElementById('share-row');
 const shareBtn       = document.getElementById('share-btn');
+const copyLinkBtn    = document.getElementById('copy-link-btn');
+const tweetBtn       = document.getElementById('tweet-btn');
 const shameBtn       = document.getElementById('shame-btn');
 const shareConfirm   = document.getElementById('share-confirm');
 
@@ -174,21 +176,50 @@ async function fetchOracle(question) {
 }
 
 // ---- Share Button ----
-shareBtn.addEventListener('click', async () => {
-  const url = window.location.href;
-  const shareText = 'I consulted the Oracle of the Mystic 8 and the sphere had OPINIONS. Ask it your question 🔮';
-  if (navigator.share) {
-    try { await navigator.share({ title: 'Oracle of the Mystic 8', text: shareText, url }); return; }
-    catch { /* cancelled */ }
-  }
-  try {
-    await navigator.clipboard.writeText(url);
-    shareConfirm.textContent = '✦ link copied. unleash it. ✦';
-  } catch {
-    shareConfirm.textContent = '✦ ' + url + ' ✦';
-  }
+function buildShareText() {
+  if (!currentReading) return '';
+  const url = 'oracle-of-the-mystic-8.vercel.app';
+  return `🔮 The Oracle has spoken:\n\n"${currentReading.ball}"\n${currentReading.answer}\n\n${url} — ask at your own risk.`;
+}
+
+function flashConfirm(msg) {
+  shareConfirm.textContent = msg;
   shareConfirm.classList.add('show');
-  setTimeout(() => shareConfirm.classList.remove('show'), 3000);
+  setTimeout(() => shareConfirm.classList.remove('show'), 2500);
+}
+
+function flashIcon(btn, confirmMsg) {
+  const orig = btn.textContent;
+  btn.textContent = '✓';
+  flashConfirm(confirmMsg);
+  setTimeout(() => { btn.textContent = orig; }, 2000);
+}
+
+shareBtn.addEventListener('click', async () => {
+  const text = buildShareText();
+  if (!text) return;
+  try {
+    await navigator.clipboard.writeText(text);
+    flashIcon(shareBtn, '✦ reading copied. unleash it. ✦');
+  } catch {
+    flashConfirm('✦ copy failed — try manually ✦');
+  }
+});
+
+copyLinkBtn.addEventListener('click', async () => {
+  try {
+    await navigator.clipboard.writeText('https://oracle-of-the-mystic-8.vercel.app');
+    flashIcon(copyLinkBtn, '✦ link copied. ✦');
+  } catch {
+    flashConfirm('✦ copy failed — try manually ✦');
+  }
+});
+
+tweetBtn.addEventListener('click', () => {
+  const text = buildShareText();
+  if (!text) return;
+  const tweetUrl = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(text);
+  window.open(tweetUrl, '_blank');
 });
 
 // ---- Shame Button ----
