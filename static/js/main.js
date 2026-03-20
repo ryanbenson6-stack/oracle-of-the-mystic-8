@@ -178,7 +178,7 @@ async function fetchOracle(question) {
 // ---- Share Button ----
 function buildShareText() {
   if (!currentReading) return '';
-  const url = 'oracle-of-the-mystic-8.vercel.app';
+  const url = 'https://oracle-of-the-mystic-8.vercel.app?utm_source=share&utm_medium=copy';
   return `🔮 The Oracle has spoken:\n\n"${currentReading.ball}"\n${currentReading.answer}\n\n${url} — ask at your own risk.`;
 }
 
@@ -208,7 +208,7 @@ shareBtn.addEventListener('click', async () => {
 
 copyLinkBtn.addEventListener('click', async () => {
   try {
-    await navigator.clipboard.writeText('https://oracle-of-the-mystic-8.vercel.app');
+    await navigator.clipboard.writeText('https://oracle-of-the-mystic-8.vercel.app?utm_source=share&utm_medium=link');
     flashIcon(copyLinkBtn, '✦ link copied. ✦');
   } catch {
     flashConfirm('✦ copy failed — try manually ✦');
@@ -216,9 +216,9 @@ copyLinkBtn.addEventListener('click', async () => {
 });
 
 tweetBtn.addEventListener('click', () => {
-  const text = buildShareText();
-  if (!text) return;
-  const tweetUrl = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(text);
+  if (!currentReading) return;
+  const tweetText = `🔮 The Oracle has spoken:\n\n"${currentReading.ball}"\n${currentReading.answer}\n\nhttps://oracle-of-the-mystic-8.vercel.app?utm_source=twitter&utm_medium=social — ask at your own risk.`;
+  const tweetUrl = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(tweetText);
   window.open(tweetUrl, '_blank');
 });
 
